@@ -1,10 +1,17 @@
 module.exports = function(db) {
-  var cache = {}
+  var cache = {}, nop = new Function;
 
   function inc(key, val, callback) {
-    callback = callback || function(){}
+    if (typeof val === "function" && !callback) {
+      callback = val;
+      val = 1;
+    } else if(!val) {
+      val = 1
+    }
 
-    if (key in cache) {
+    callback = callback || nop;
+
+    if (cache[key]) {
       cache[key].ready.push(callback)
       cache[key].value += val
       return
