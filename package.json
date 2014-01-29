@@ -1,6 +1,6 @@
 {
   "name": "level-inc",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Increment leveldb keys",
   "main": "index.js",
   "peerDependencies": {
