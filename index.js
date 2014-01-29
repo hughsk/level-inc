@@ -1,15 +1,19 @@
+function noop(){}
+
 module.exports = function(db) {
-  var cache = {}, nop = new Function;
+  var cache = {}
 
   function inc(key, val, callback) {
-    if (typeof val === "function" && !callback) {
-      callback = val;
-      val = 1;
-    } else if(!val) {
+    callback = callback || noop
+
+    // `val` defaults to 1 when not supplied.
+    if (typeof val === "function") {
+      callback = val
+      val = 1
+    } else
+    if (arguments.length < 2) {
       val = 1
     }
-
-    callback = callback || nop;
 
     if (cache[key]) {
       cache[key].ready.push(callback)
