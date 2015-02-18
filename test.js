@@ -20,9 +20,17 @@ db.batch([
 
     var times = 0
 
-    for (var i = 0; i < 100; i += 1) {
-      db.inc('b', 5, done)
-    }
+    db.inc('b', 0.03681494823849502, function(){
+      db.inc('b', 0.016595898341492214, function(){
+        for (var i = 0; i < 100; i += 1) {
+          db.inc('b', 1, done)
+        }
+      })
+    })
+
+
+
+
 
     function done(err) {
       if (err) throw err
@@ -31,7 +39,7 @@ db.batch([
 
       db.get('b', function(err, val) {
         t.ok(!err)
-        t.equal(val, '500')
+        t.equal(Number(val), 100.05341084657999)
       })
     }
   })
