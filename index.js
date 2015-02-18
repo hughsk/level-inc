@@ -28,9 +28,10 @@ module.exports = function(db) {
 
     db.get(key, function(err, current) {
       var ready = cache[key].ready
-
-      current = current | 0
-      current += cache[key].value
+      if (!current && current !== 0) {
+        current = 0;
+      } else current = Number(current);
+      current += Number(cache[key].value)
       delete cache[key]
 
       db.put(key, current, function(err) {
